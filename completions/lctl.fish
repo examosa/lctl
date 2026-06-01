@@ -1,19 +1,15 @@
 # completions/lctl.fish
 
 function __lctl_agents
-    for f in $HOME/Library/LaunchAgents/*.plist
-        if test -e $f
-            set full (basename $f)
-            set full (string replace -r '\.plist$' '' $full)
-            set short (string replace -r '^[^.]*\.[^.]*\.' '' $full)
-            echo $short
-            echo $full
-        end
+    for file in ~/Library/LaunchAgents/*.plist
+        set --local label (path basename --no-extension -- $file)
+        path extension -- $label
+        echo $label
     end
 end
 
 # subcommands and descriptions
-set -l cmds \
+set --local cmds \
 "cat:Print plist file contents" \
 "edit:Edit plist file in $EDITOR" \
 "file:Show file" \
@@ -32,9 +28,9 @@ set -l cmds \
 "print:Print information"
 
 for entry in $cmds
-    set -l parts (string split ':' $entry)
-    complete -c lctl -f -a $parts[1] -d $parts[2]
+    set --local parts (string split ':' $entry)
+    complete --command lctl --no-files --arguments $parts[1] --description $parts[2]
 end
 
 # agent completions for second argument (skip for listdisabled)
-complete -c lctl -n 'not __fish_seen_subcommand_from listdisabled' -a '(__lctl_agents)' -d 'agent'
+complete --command lctl --condition 'not __fish_seen_subcommand_from listdisabled' --arguments '(__lctl_agents)' --description 'agent'
