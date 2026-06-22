@@ -17,7 +17,7 @@ complete --command lctl --condition __fish_use_subcommand --short-option h --lon
 
 set --local cmds \
     "cat:Print plist file contents" \
-    "edit:Edit plist file in $EDITOR" \
+    "edit:Edit plist file in \$EDITOR" \
     "file:Show file" \
     "listdisabled:List disabled agents" \
     "log:Show log" \
