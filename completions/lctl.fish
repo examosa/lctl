@@ -4,7 +4,7 @@ function __lctl_agents
     for file in ~/Library/LaunchAgents/*.plist
         set --local label (path basename --no-extension -- $file)
         string match --regex '[^.]+$' $label
-        echo $label
+        test -n (commandline --current-token); and echo $label
     end
 end
 
